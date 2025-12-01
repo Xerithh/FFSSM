@@ -4,18 +4,30 @@
 package FFSSM;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
 public class Plongee {
 
-	public Site lieu;
+	@Setter
+	private Site lieu;
 
-	public DiplomeDeMoniteur chefDePalanquee;
+	@Setter
+	private DiplomeDeMoniteur chefDePalanquee;
 
-	public LocalDate date;
+	@Setter
+	private LocalDate date;
 
-	public int profondeur;
+	@Setter
+	private int profondeur;
 
-	public int duree;
+	@Setter
+	private int duree;
+
+	private List<Licence> participants = new ArrayList<>();
 
 	public Plongee(Site lieu, DiplomeDeMoniteur chefDePalanquee, LocalDate date, int profondeur, int duree) {
 		this.lieu = lieu;
@@ -25,20 +37,16 @@ public class Plongee {
 		this.duree = duree;
 	}
 
-	public void ajouteParticipant(Plongeur participant) {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+	public void ajouteParticipant(Licence licence) {
+		participants.add(licence);
 	}
 
-	/**
-	 * Détermine si la plongée est conforme. 
-	 * Une plongée est conforme si tous les plongeurs de la palanquée ont une
-	 * licence valide à la date de la plongée
-	 * @return vrai si la plongée est conforme
-	 */
 	public boolean estConforme() {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		for (Licence licence : participants) {
+			if (!licence.estValide(date)) {
+				return false;
+			}
+		}
+		return true;
 	}
-
 }
